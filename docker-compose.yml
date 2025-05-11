@@ -1,0 +1,23 @@
+services:
+  db:
+    image: postgres:latest
+    container_name: agsrtestdb
+    environment:
+      POSTGRES_DB: "agsrtest"
+      POSTGRES_USER: "agsrtest"
+      POSTGRES_PASSWORD: "agsrtest"
+    ports:
+      - "5433:5432"
+
+  app:
+    build: .
+    container_name: agsrtestapp
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/agsrtest
+      SPRING_DATASOURCE_USERNAME: agsrtest
+      SPRING_DATASOURCE_PASSWORD: agsrtest
+      SPRING_JPA_HIBERNATE_DDL_AUTO: create-drop
